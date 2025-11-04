@@ -1,9 +1,9 @@
 package org.example;
 
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.ConsistentHash;
 import java.util.ArrayList;
 import java.util.Collection;
-import lombok.val;
 import lombok.var;
 
 /**
@@ -12,14 +12,17 @@ import lombok.var;
 public class App {
 
   public static final int SHARD = 1024;
+  public static final ConsistentHash<Integer> consistentHash = new ConsistentHash<Integer>(2 ^ 20, getNodes());
 
   public static void main(String[] args) {
-    System.out.println("Hello World!");
+    final String input = args[0];
+    Assert.notBlank(input, "input is blank");
 
-    val consistentHash = new ConsistentHash<>(2 ^ 20, getNodes());
-    System.out.println(args[0]);
-    Integer hash = consistentHash.get(args[0]);
-    System.out.println(hash);
+    System.out.println("--------");
+    System.out.println("input : " + input);
+    System.out.println("--------");
+    Integer idx = consistentHash.get(input);
+    System.out.println(String.format("dbIndex : %d/%d, tableIndex : %d/%d", idx / 128, 128, idx, SHARD));
   }
 
   private static Collection<Integer> getNodes() {
