@@ -23,6 +23,8 @@ public class App {
     System.out.println("--------");
     Integer idx = consistentHash.get(input);
     System.out.println(String.format("dbIndex : %d/%d, tableIndex : %d/%d", idx / 128, 128, idx, SHARD));
+    System.out.println(String.format("eg. db_%d.table_%d", idx / 128, idx));
+    System.out.println(String.format("eg. bedrock_oss_%d.file_%d", idx / 128, idx));
   }
 
   private static Collection<Integer> getNodes() {
